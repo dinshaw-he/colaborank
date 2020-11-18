@@ -1,0 +1,13 @@
+default: &default
+  encoding: utf8
+  adapter: postgresql
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  timeout: 5000
+
+development:
+  <<: *default
+  database: colaborank_dev
+
+test:
+  <<: *default
+  database: colaborank_test

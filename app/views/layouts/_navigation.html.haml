@@ -1,0 +1,17 @@
+%nav.navbar.navbar-expand.navbar-light.bg-light
+  %a.navbar-brand{ href: '/'}
+    = image_tag 'colaborank-logo.svg', size: '100x100'
+    ColaboRank
+  %button.navbar-toggler{"aria-controls" => "navbarSupportedContent", "aria-expanded" => "false", "aria-label" => "Toggle navigation", "data-target" => "#navbarSupportedContent", "data-toggle" => "collapse", :type => "button"}
+    %span.navbar-toggler-icon
+  #navbarSupportedContent.collapse.navbar-collapse
+    %ul.navbar-nav.mr-auto
+      %li.nav-item
+        = link_to 'Stuff', '/', class: 'nav-link'
+
+    %ul.navbar-nav
+      %li.nav-item
+        - if user_signed_in?
+          %a.nav-link{ href: '/' }= fa_icon('sign-out')
+        - else
+          %a.nav-link{ href: new_user_session_path }= fa_icon('sign-in')
