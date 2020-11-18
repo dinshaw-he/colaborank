@@ -7,11 +7,14 @@
   #navbarSupportedContent.collapse.navbar-collapse
     %ul.navbar-nav.mr-auto
       %li.nav-item
-        = link_to 'Stuff', '/', class: 'nav-link'
+        =# link_to 'Stuff', '/', class: 'nav-link'
 
     %ul.navbar-nav
-      %li.nav-item
-        - if user_signed_in?
+      - if user_signed_in?
+        %li.nav-item
+          %a.nav-link{ href: '/' }= fa_icon('user')
+        %li.nav-item
           %a.nav-link{ href: '/' }= fa_icon('sign-out')
-        - else
+      - else
+        %li.nav-item
           %a.nav-link{ href: new_user_session_path }= fa_icon('sign-in')
