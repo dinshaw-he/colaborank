@@ -1,0 +1,6 @@
+en:
+  api:
+    v1:
+      pointed_events:
+        create:
+          success: Pointed Event was successfully created!

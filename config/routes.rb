@@ -1,6 +1,12 @@
 Rails.application.routes.draw do
   devise_for :users
-  get 'site/index'
-  root to: "site#index"
+
+  root to: 'site#index'
+
+  namespace :api do
+    namespace :v1 do
+      resources :pointed_events, only: :create, format: :json
+    end
+  end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
