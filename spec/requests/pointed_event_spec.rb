@@ -5,7 +5,7 @@ RSpec.describe 'PointedEvent' do
   let(:create_params) do
     {
       pointed_event: {
-        email: user.email,
+        user: user.github,
         type: 'PR_APPROVAL',
         value: 1000
       }

@@ -15,6 +15,7 @@ RSpec.feature 'As a user' do
     expect(page).to have_content 'Weekly Contest'
     within first('tbody tr') do
       expect(page).to have_content marge.email
+      expect(page).to have_content marge.github
       expect(page).to have_content marge.pointed_events.sum(:value)
     end
   end

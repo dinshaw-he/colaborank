@@ -5,7 +5,7 @@ module Api
       skip_before_action :verify_authenticity_token
 
       def create
-        user = User.find_by! email: email_params[:email]
+        user = User.find_by! github: user_params[:user]
         pointed_event = PointedEvent.new pointed_event_params.merge(user: user)
 
         message, id = if pointed_event.save
@@ -19,8 +19,8 @@ module Api
 
       private
 
-      def email_params
-        params.require(:pointed_event).permit :email
+      def user_params
+        params.require(:pointed_event).permit :user
       end
 
       def pointed_event_params
