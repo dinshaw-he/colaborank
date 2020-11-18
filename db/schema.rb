@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 2020_11_18_182454) do
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
-  create_table "pointable_events", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+  create_table "pointed_events", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.integer "value"
     t.uuid "user_id"
     t.string "type"

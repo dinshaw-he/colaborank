@@ -8,8 +8,8 @@
       %th Colab-o-ranker
       %th Current Total
   %tbody
-    - @users.each do |user|
+    - @rankings.each do |ranking|
       %tr
-        %td= user.email
-        %td= user.total
+        %td= ranking.email
+        %td= ranking.total
 
