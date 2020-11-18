@@ -42,3 +42,5 @@ gem "font-awesome-rails", "~> 4.7"
 gem "rspec-rails", "~> 4.0"
 
 gem "shoulda-matchers", "~> 4.4"
+
+gem "react-rails", "~> 2.6"
