@@ -1,0 +1,3 @@
+homer:
+  email: homer@simpsons.com
+  encrypted_password: <%= PasswordHelper.encrypted_password %>
