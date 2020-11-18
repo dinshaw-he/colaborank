@@ -1,11 +1,14 @@
 homer:
   email: homer@simpsons.com
+  github: hsimpson
   encrypted_password: <%= PasswordHelper.encrypted_password %>
 
 marge:
   email: marge@simpsons.com
+  github: msimpson
   encrypted_password: <%= PasswordHelper.encrypted_password %>
 
 bart:
   email: bart@simpsons.com
+  github: bsimpson
   encrypted_password: <%= PasswordHelper.encrypted_password %>

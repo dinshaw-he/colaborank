@@ -10,6 +10,8 @@
   %tbody
     - @rankings.each do |ranking|
       %tr
-        %td= ranking.email
+        %td
+          = ranking.email
+          %small= "(#{ranking.github})"
         %td= ranking.total
 
