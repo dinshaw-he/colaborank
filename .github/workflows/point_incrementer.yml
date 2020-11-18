@@ -14,5 +14,5 @@ jobs:
       - name: github object
         if: github.event_name == 'pull_request_review'
         run: |
-          curl -d 'pointed_event[value]=1000&pointed_event[type]=PR_APPROVAL&pointed_event[email]=marge@simpsons.com' https://colaborank.herokuapp.com/api/v1/pointed_events.json
+          curl -d 'pointed_event[value]=1000&pointed_event[type]=PR_APPROVAL&pointed_event[user]=${{github.event.review.user.login}}' https://colaborank.herokuapp.com/api/v1/pointed_events.json
 
