@@ -51,8 +51,11 @@ const Chart = () => {
     chart: {
       zoomType: 'xy',
     },
-    title: {
-      text: 'Current Standings',
+    title: null,
+    chart: {
+      style: {
+        fontFamily: 'helvetica'
+      }
     },
     series,
     xAxis: {
