@@ -48,3 +48,5 @@ gem "react-rails", "~> 2.6"
 gem "dry-monads", "~> 1.3"
 
 gem "dry-matcher", "~> 0.8.3"
+
+gem "groupdate", "~> 5.2"

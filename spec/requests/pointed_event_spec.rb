@@ -59,11 +59,17 @@ RSpec.describe 'PointedEvent' do
   describe 'GET /pointed_events' do
     include_context 'populate pointed events'
 
+    let(:start_date) do
+      PointedEvent.order('created_at asc').first.created_at.to_s(:db_date)
+    end
+    let(:range) { (start_date.to_date..Date.today) }
     let(:expected_payload) do
       users.map do |user|
         {
-          email: user.email,
-          points: user.pointed_events.since(5.days.ago.beginning_of_day).sum(:value)
+          'email' => user.email,
+          'points' => range.map do |date|
+            PointedEvent.where(created_at: (date - 5.days)..date).sum(:value)
+          end
         }
       end
     end
@@ -73,7 +79,6 @@ RSpec.describe 'PointedEvent' do
     end
 
     it 'returns the payload for a line chart' do
-      pending
       body = JSON.parse(response.body)
 
       expect(response.content_type).to eq('application/json; charset=utf-8')

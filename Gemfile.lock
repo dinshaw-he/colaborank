@@ -109,6 +109,8 @@ GEM
       railties (>= 3.2, < 6.1)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
+    groupdate (5.2.1)
+      activesupport (>= 5)
     haml (5.2.0)
       temple (>= 0.8.0)
       tilt
@@ -285,6 +287,7 @@ DEPENDENCIES
   dry-matcher (~> 0.8.3)
   dry-monads (~> 1.3)
   font-awesome-rails (~> 4.7)
+  groupdate (~> 5.2)
   haml-rails (~> 2.0)
   jbuilder (~> 2.7)
   listen (~> 3.2)
