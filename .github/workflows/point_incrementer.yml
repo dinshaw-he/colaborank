@@ -1,13 +1,11 @@
 name: Point Incrementer
 
 on:
-  pull_request_review:
-    types: [submitted]
   pull_request:
-    types: [closed]
+    types: [closed, assigned, unassigned]
 
 jobs:
-  approval_incrementer:
+  pairing_point_calculator:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -22,17 +20,33 @@ jobs:
             const getCommitEmails = (commitData) => { return commitData.commit.message.split('<').map(parseEmail) }
             const getEmails = (messages) => { return messages.reduce((acc, val) => acc.concat(val), []) }
             const removeBadEmails = (emails) => { return emails.reduce((acc, val) => val ? (acc || []).concat([val]) : acc) }
-            const formatAsParams = (email) => { return ("pointed_event[emails][]=" + email) }
+            const formatEmailParams = (email) => { return ("pointed_event[emails][]=" + email) }
             const coAuthorEmails = removeBadEmails(getEmails(commitsResponse.data.map(getCommitEmails)))
 
-            return coAuthorEmails ? coAuthorEmails.map(formatAsParams).join('&') : ''
-      - name: Award Points For Pairing
-        if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true && steps.parse-co-authors.outputs.result != ''
+            return coAuthorEmails ? coAuthorEmails.map(formatEmailParams).join('&') : ''
+      - name: Award Points to Pairing Participants
+        if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true && steps.parse-co-authors.outputs.result == ''
         run: curl -d 'pointed_event[type]=PR_COAUTHORS&${{steps.parse-co-authors.outputs.result}}' https://collaborank.herokuapp.com/api/v1/pointed_events.json
-      - name: Award Points For Approval
-        if: github.event_name == 'pull_request_review' && github.event.review.state == 'approved'
-        run: |
-          curl -d 'pointed_event[value]=1000&pointed_event[type]=PR_APPROVAL&pointed_event[user]=${{github.event.review.user.login}}' https://collaborank.herokuapp.com/api/v1/pointed_events.json
+  approval_point_calculator:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/github-script@v3
+        id: parse-approvers
+        if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
+        with:
+          result-encoding: string
+          script: |
+            const reviewsResponse = await github.request(context.payload.pull_request._links.self.href + '/reviews')
+            const approvedReviews = reviewsResponse.data.filter(function(review) { return review.state == 'APPROVED' })
+            const ascendingReviews = approvedReviews.sort((a, b) => Date.parse(a.submitted_at) - Date.parse(b.submitted_at))
+            const ascendingReviewers = ascendingReviews.map(function(reviewResponse) { return reviewResponse.user.login })
+            const formatHandleParams = (handle) => { return ("pointed_event[github_handles][]=" + handle) }
+
+            return ascendingReviewers.length < 1 ? '' : ascendingReviewers.map(formatHandleParams).join('&')
+      - name: Award Points to Pull Request Approvers
+        if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true && steps.parse-approvers.outputs.result == ''
+        run: curl -d 'pointed_event[type]=PR_APPROVAL&${{steps.parse-approvers.outputs.result}}' https://collaborank.herokuapp.com/api/v1/pointed_events.json
 
 
 
