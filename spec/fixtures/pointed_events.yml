@@ -1,4 +1,0 @@
-homer_approval:
-  type: PR_APPROVAL
-  value: 1000
-  user: homer
