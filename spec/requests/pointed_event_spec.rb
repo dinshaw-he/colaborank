@@ -1,6 +1,9 @@
 require "rails_helper"
 
 RSpec.describe 'PointedEvent' do
+  let(:homer) { users(:homer) }
+  let(:marge) { users(:marge) }
+
   let(:headers) do
     { ACCEPT: "application/json" }
   end
@@ -11,13 +14,11 @@ RSpec.describe 'PointedEvent' do
     end
 
     context 'with a PR_APPROVAL' do
-      let(:user) { users(:homer) }
       let(:create_params) do
         {
           pointed_event: {
-            user: user.github,
+            github_handles: [homer.github, marge.github],
             type: 'PR_APPROVAL',
-            value: 1000
           }
         }
       end
@@ -33,8 +34,6 @@ RSpec.describe 'PointedEvent' do
     end
 
     context 'with a PR_COAUTHORS' do
-      let(:homer) { users(:homer) }
-      let(:marge) { users(:marge) }
       let(:create_params) do
         {
           pointed_event: {

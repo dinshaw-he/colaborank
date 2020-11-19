@@ -40,7 +40,7 @@ class PointedEventCreator
   def find_users(params)
     conditions = case params[:type]
     when 'PR_APPROVAL'
-      { github: params[:user] }
+      { github: params[:github_handles].split(',') }
     when 'PR_COAUTHORS'
       { email: params[:emails].split(',') }
     end

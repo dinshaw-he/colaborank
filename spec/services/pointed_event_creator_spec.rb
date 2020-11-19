@@ -10,7 +10,7 @@ RSpec.describe PointedEventCreator do
     context 'when successful' do
       let(:params) do
         {
-          user: marge.github,
+          github_handles: [marge.github, homer.github],
           type: 'PR_APPROVAL'
         }
       end
