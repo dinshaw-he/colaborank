@@ -1,3 +1,19 @@
+#react-target {
+  margin-bottom: $margin*2;
+  margin-top: $margin*2;
+}
+
+.weekly-contest {
+  h2 {
+    margin-bottom: 0;
+  }
+  p.dates {
+    padding-left: 3px;
+    font-size: 1rem;
+    color: $purple;
+  }
+}
+
 .rankings {
   border: none;
   border-width: 0;

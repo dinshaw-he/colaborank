@@ -12,4 +12,5 @@ class PointedEvent < ApplicationRecord
   validates :value, presence: true, numericality: true
 
   scope :since, lambda { |start_time|  where(created_at: start_time..Time.zone.now) }
+  scope :this_week, -> { since Date.today.beginning_of_week }
 end
