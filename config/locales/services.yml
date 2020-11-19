@@ -1,0 +1,4 @@
+en:
+  services:
+    pointed_event_creator:
+      success: Pointed Event was successfully created!

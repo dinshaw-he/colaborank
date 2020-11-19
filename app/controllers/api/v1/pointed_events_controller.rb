@@ -5,29 +5,34 @@ module Api
       skip_before_action :verify_authenticity_token
 
       def create
-        user = User.find_by! github: user_params[:user]
-        pointed_event = PointedEvent.new pointed_event_params.merge(user: user)
+        service = PointedEventCreator.new
 
-        message, id = if pointed_event.save
-          [t('.success'), pointed_event.id ]
-        else
-          [pointed_event.errors.full_messages, nil]
+        service.call(pointed_event_params) do |result|
+          result.success do |payload|
+            render json: { message: payload.message, ids: payload.ids },
+              status: :created
+          end
+
+          result.failure do |error|
+            render json: { message: error }, status: :unprocessable_entity
+          end
         end
+      end
 
-        render json: { message: message, id: id }, status: :created
+      def index
+        data = []
+        render json: { data: data }, status: :ok
       end
 
       private
 
-      def user_params
-        params.require(:pointed_event).permit :user
-      end
-
       def pointed_event_params
         params.require(:pointed_event).permit(
+          :user,
           :value,
           :type,
-          :description
+          :description,
+          emails: [],
         )
       end
     end

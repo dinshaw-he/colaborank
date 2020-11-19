@@ -44,3 +44,7 @@ gem "rspec-rails", "~> 4.0"
 gem "shoulda-matchers", "~> 4.4"
 
 gem "react-rails", "~> 2.6"
+
+gem "dry-monads", "~> 1.3"
+
+gem "dry-matcher", "~> 0.8.3"
