@@ -1,0 +1,10 @@
+{
+  "stack": "heroku-18",
+  "name": "collaborank",
+  "scripts": {
+    "postdeploy": "bundle exec rake db:schema:load db:seed"
+  },
+  "addons": [
+    "heroku-postgresql"
+  ]
+}
