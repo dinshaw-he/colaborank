@@ -2,11 +2,12 @@
 
 %h2 Weekly Contest
 
-%table.table.rankings
+%table.table.rankings.table-hover.table-borderless.table-striped
   %thead
     %tr
-      %th Colab-o-ranker
+      %th User
       %th Current Total
+      %th Breakdown
   %tbody
     - @rankings.each do |ranking|
       %tr

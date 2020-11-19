@@ -1,5 +1,17 @@
 .rankings {
+  border: none;
+  border-width: 0;
+  thead {
+    th {
+      text-transform: uppercase;
+      font-weight: normal;
+      color: #00a4ed;
+      padding-bottom: $margin/2;
+    }
+  }
   ul {
+    padding: 0;
+    margin: 0;
     li {
       list-style: none;
     }
