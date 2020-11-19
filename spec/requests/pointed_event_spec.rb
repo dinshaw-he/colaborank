@@ -83,7 +83,8 @@ RSpec.describe 'PointedEvent' do
 
       expect(response.content_type).to eq('application/json; charset=utf-8')
       expect(response).to have_http_status(:ok)
-      expect(body['data']).to eq expected_payload
+      expect(body['chart_data']).to eq expected_payload
+      expect(body['start_date']).to eq start_date
     end
   end
 end
