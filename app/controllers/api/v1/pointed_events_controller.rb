@@ -20,8 +20,9 @@ module Api
       end
 
       def index
-        range = PointedEvent.minimum(:created_at).to_date..Date.today
-        data = User.all.map do |user|
+        start_date = PointedEvent.minimum(:created_at).to_date
+        range = start_date..Date.today
+        chart_data = User.all.map do |user|
           {
             email: user.email,
             points: range.map do |date|
@@ -30,7 +31,7 @@ module Api
           }
         end
 
-        render json: { data: data }, status: :ok
+        render json: { chart_data: chart_data, start_date: start_date }, status: :ok
       end
 
       private
