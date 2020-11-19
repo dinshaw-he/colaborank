@@ -1,5 +1,5 @@
 class SiteController < ApplicationController
-  Ranking = Struct.new :email, :github, :total, keyword_init: true
+  Ranking = Struct.new :breakdown, :email, :github, :total, keyword_init: true
 
   def index
     point_events = PointedEvent.select('user_id, sum(value) as total').group('user_id').order('total desc')
@@ -9,7 +9,8 @@ class SiteController < ApplicationController
       Ranking.new(
         email: user.email,
         github: user.github,
-        total: pointed_event.total
+        total: pointed_event.total,
+        breakdown: user.pointed_events.group(:type).sum(:value)
       )
     end
   end

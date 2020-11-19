@@ -2,7 +2,7 @@
 
 %h2 Weekly Contest
 
-%table.table
+%table.table.rankings
   %thead
     %tr
       %th Colab-o-ranker
@@ -13,5 +13,13 @@
         %td
           = ranking.email
           %small= "(#{ranking.github})"
-        %td= ranking.total
+        %td= number_with_delimiter ranking.total
+        %td
+          %ul.small
+            - ranking.breakdown.map do |k, v|
+              %li
+                = succeed ':' do
+                  = k
+                %strong
+                  = number_with_delimiter(v)
 
