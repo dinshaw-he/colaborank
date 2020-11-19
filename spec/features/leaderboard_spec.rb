@@ -1,4 +1,6 @@
 RSpec.feature 'As a user' do
+  include ActionView::Helpers::NumberHelper
+
   let(:homer) { users(:homer)  }
   let(:marge) { users(:marge)  }
 
@@ -16,7 +18,9 @@ RSpec.feature 'As a user' do
     within first('tbody tr') do
       expect(page).to have_content marge.email
       expect(page).to have_content marge.github
-      expect(page).to have_content marge.pointed_events.sum(:value)
+      expect(page).to have_content number_with_delimiter(
+        marge.pointed_events.sum(:value)
+      )
     end
   end
 end
