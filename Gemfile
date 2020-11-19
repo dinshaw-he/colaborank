@@ -50,3 +50,5 @@ gem "dry-monads", "~> 1.3"
 gem "dry-matcher", "~> 0.8.3"
 
 gem "groupdate", "~> 5.2"
+
+gem "timecop", "~> 0.9.2"

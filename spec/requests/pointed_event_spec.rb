@@ -68,7 +68,7 @@ RSpec.describe 'PointedEvent' do
         {
           'email' => user.email,
           'points' => range.map do |date|
-            PointedEvent.where(created_at: (date - 5.days)..date).sum(:value)
+            user.pointed_events.where(created_at: (date - 5.days)..date).sum(:value)
           end
         }
       end
