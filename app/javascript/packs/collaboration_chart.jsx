@@ -48,6 +48,9 @@ const Chart = () => {
   }
 
   const options = {
+    chart: {
+      zoomType: 'xy',
+    },
     title: {
       text: 'Current Standings',
     },
