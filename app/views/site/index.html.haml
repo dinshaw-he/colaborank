@@ -1,26 +1,32 @@
 %div#react-target
 
-%h2 Weekly Contest
-
-%table.table.rankings.table-hover.table-borderless.table-striped
-  %thead
-    %tr
-      %th User
-      %th Current Total
-      %th Breakdown
-  %tbody
-    - @rankings.each do |ranking|
+.weekly-contest
+  %h2
+    Weekly Contest
+  %p.dates
+    - start = Date.today.beginning_of_week
+    = l start, format: :contest_dates
+    \-
+    = l (start + 4.days), format: :contest_dates
+  %table.table.rankings.table-hover.table-borderless.table-striped
+    %thead
       %tr
-        %td
-          = ranking.email
-          %small= "(#{ranking.github})"
-        %td= number_with_delimiter ranking.total
-        %td
-          %ul.small
-            - ranking.breakdown.map do |k, v|
-              %li
-                = succeed ':' do
-                  = k
-                %strong
-                  = number_with_delimiter(v)
+        %th User
+        %th Current Total
+        %th Breakdown
+    %tbody
+      - @rankings.each do |ranking|
+        %tr
+          %td
+            = ranking.email
+            %small= "(#{ranking.github})"
+          %td= number_with_delimiter ranking.total
+          %td
+            %ul.small
+              - ranking.breakdown.map do |k, v|
+                %li
+                  = succeed ':' do
+                    = k
+                  %strong
+                    = number_with_delimiter(v)
 

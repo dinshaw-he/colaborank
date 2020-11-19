@@ -1,0 +1,4 @@
+en:
+  date:
+    formats:
+      contest_dates: "%m/%d"
