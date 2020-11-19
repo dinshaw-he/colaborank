@@ -1,28 +1,41 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import { render } from 'react-dom'
 import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 
-const options = {
-  title: {
-    text: 'Current Standings',
-  },
-  series: [{
-    name: 'Will',
-    data: [1, 4, 6, 7, 8]
-  }, {
-    name: 'Derek',
-    data: [2, 8, 8, 12, 15]
-  }, {
-    name: 'Stephen',
-    data: [4, 6, 7, 10, 13]
-  }, {
-    name: 'Dinshaw',
-    data: [3, 6, 8, 9, 14]
-  }]
-}
-
 const Chart = () => {
+  const [series, setSeries] = useState(null);
+
+  useEffect(() => {
+    fetch('/api/v1/pointed_events.json', {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    })
+      .then(res => res.json())
+      .then((response) => {
+        const data = response.chart_data.map((collaborator) => {
+          return {
+            name: collaborator.email,
+            data: collaborator.points
+          }
+        });
+        setSeries(data);
+      })
+      .catch(console.error);
+  }, []);
+
+  if (!series) {
+    return <p>Loading...</p>
+  }
+
+  const options = {
+    title: {
+      text: 'Current Standings',
+    },
+    series,
+  };
+
   return (
     <div>
       <HighchartsReact
