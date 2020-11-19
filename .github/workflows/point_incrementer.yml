@@ -18,23 +18,21 @@ jobs:
           result-encoding: string
           script: |
             const commitsResponse = await github.request(context.payload.pull_request.commits_url)
-
             const parseEmail = (message) => { if (message.includes('>')) { return message.substring(0, (message.indexOf('>'))) } else { return null } }
             const getCommitEmails = (commitData) => { return commitData.commit.message.split('<').map(parseEmail) }
             const getEmails = (messages) => { return messages.reduce((acc, val) => acc.concat(val), []) }
             const removeBadEmails = (emails) => { return emails.reduce((acc, val) => val ? (acc || []).concat([val]) : acc) }
-
+            const formatAsParams = (email) => { return ("pointed_event[emails][]=" + email) }
             const coAuthorEmails = removeBadEmails(getEmails(commitsResponse.data.map(getCommitEmails)))
 
-            return JSON.stringify(coAuthorEmails)
+            return coAuthorEmails ? coAuthorEmails.map(formatAsParams).join('&') : ''
       - name: Award Points For Pairing
-        if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
-        run: |
-          echo "Co Author Emails: ${{steps.parse-co-authors.outputs.result}}"
+        if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true && steps.parse-co-authors.outputs.result != ''
+        run: curl -d 'pointed_event[type]=PR_COAUTHORS&${{steps.parse-co-authors.outputs.result}}' https://collaborank.herokuapp.com/api/v1/pointed_events.json
       - name: Award Points For Approval
         if: github.event_name == 'pull_request_review' && github.event.review.state == 'approved'
         run: |
-          curl -d 'pointed_event[value]=1000&pointed_event[type]=PR_APPROVAL&pointed_event[user]=${{github.event.review.user.login}}' https://colaborank.herokuapp.com/api/v1/pointed_events.json
+          curl -d 'pointed_event[value]=1000&pointed_event[type]=PR_APPROVAL&pointed_event[user]=${{github.event.review.user.login}}' https://collaborank.herokuapp.com/api/v1/pointed_events.json
 
 
 
