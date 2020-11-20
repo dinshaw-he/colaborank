@@ -53,3 +53,10 @@
           Events:
           %a{ href: pointed_events_path(q: { type_eq: event_type } ) }
             = number_with_delimiter(PointedEvent.by_type(event_type).count)
+      - PointedEvent.where.not(repo: nil).pluck(:repo).uniq.each do |repo|
+        %li.list-group-item.repo-total
+          Total
+          %strong= repo
+          Events:
+          %a{ href: pointed_events_path(q: { repo_eq: repo } ) }
+            = number_with_delimiter(PointedEvent.by_repo(repo).count)

@@ -19,7 +19,8 @@ class PointedEventCreator
     users.each do |user|
       pointed_events << user.pointed_events.create!(
         type: params[:type],
-        value: klass::VALUES.fetch(params[:type])
+        value: klass::VALUES.fetch(params[:type]),
+        repo: params[:repo]
       )
     end
 

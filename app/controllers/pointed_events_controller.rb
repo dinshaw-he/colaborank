@@ -13,6 +13,7 @@ class PointedEventsController < ApplicationController
     params.require(:q).permit(
       :user_id_eq,
       :type_eq,
+      :repo_eq,
       :created_at_gteq,
       :created_at_lteq,
     )
