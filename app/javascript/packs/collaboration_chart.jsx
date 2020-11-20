@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import { render } from 'react-dom'
 import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
@@ -14,9 +14,11 @@ import HighchartsReact from 'highcharts-react-official'
 } */
 
 const Chart = () => {
-  const [series, setSeries] = useState(null);
+  const [series, setSeries] = useState([]);
+  const chartContainer = useRef(null);
 
   useEffect(() => {
+    chartContainer.current.chart.showLoading();
     fetch('/api/v1/pointed_events.json', {
       headers: {
         'Content-Type': 'application/json'
@@ -39,20 +41,15 @@ const Chart = () => {
           }
         });
         setSeries(data);
+        chartContainer.current.chart.hideLoading();
       })
       .catch(console.error);
   }, []);
 
-  if (!series) {
-    return <p>Loading...</p>
-  }
-
   const options = {
-    chart: {
-      zoomType: 'xy',
-    },
     title: null,
     chart: {
+      zoomType: 'xy',
       style: {
         fontFamily: 'helvetica'
       }
@@ -78,6 +75,7 @@ const Chart = () => {
       <HighchartsReact
         highcharts={Highcharts}
         options={options}
+        ref={chartContainer}
       />
     </div>
   );
