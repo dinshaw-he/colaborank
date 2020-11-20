@@ -1,0 +1,27 @@
+%h1 Pointed Events
+= search_form_for @q do |f|
+  .row
+    .col
+      = f.input :user_id_in, collection: User.all, include_blank: 'All', label: 'User', required: false, label_method: :email
+    .col
+      = f.input :type_in, collection: PointedEvent.pluck(:type).uniq, include_blank: 'All', label: 'Type', required: false
+    .col
+      = f.input :created_at_gteq, label: 'Created Before'
+    .col
+      = f.input :created_at_gteq, label: 'Created After'
+    .col
+      = f.button :submit, class: 'btn btn-primary'
+      = link_to 'Clear', pointed_events_path, class: 'btn btn-secondary'
+
+= pluralize @pointed_events.total_count, 'Pointed Events'
+= paginate @pointed_events
+
+%table.table.table-striped.table-hover
+  %thead
+    %tr
+      %th Created at
+      %th User
+      %th Type
+      %th Value
+  %tbody
+    = render @pointed_events

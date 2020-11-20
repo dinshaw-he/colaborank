@@ -25,6 +25,7 @@ group :test do
   gem 'capybara', '>= 2.15'
   gem 'selenium-webdriver'
   gem 'webdrivers'
+  gem "database_cleaner", "~> 1.8"
 end
 
 gem "pg", "~> 1.2"
@@ -52,3 +53,8 @@ gem "dry-matcher", "~> 0.8.3"
 gem "groupdate", "~> 5.2"
 
 gem "timecop", "~> 0.9.2"
+
+gem "ransack", "~> 2.3"
+
+gem "kaminari", "~> 1.2"
+
