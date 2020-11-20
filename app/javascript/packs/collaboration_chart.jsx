@@ -76,7 +76,6 @@ const Chart = () => {
           point: {
               events: {
                   click: function (evt) {
-                      console.log('event', evt);
                       const name = evt.point.series.getName();
                       const url = `/pointed_events?&q[user_email_eq]=${name}`;
                       location.href = url;

@@ -14,11 +14,13 @@ RSpec.describe 'PointedEvent' do
     end
 
     context 'with a PR_APPROVAL' do
+      let(:repo) { 'Foo' }
       let(:create_params) do
         {
           pointed_event: {
             github_handles: [homer.github, marge.github],
             type: 'PR_APPROVAL',
+            repo: repo
           }
         }
       end
@@ -30,6 +32,7 @@ RSpec.describe 'PointedEvent' do
         expect(response).to have_http_status(:created)
         expect(body['message']).to eq I18n.t('api.v1.pointed_events.create.success')
         expect(body['ids']).to be_a Array
+        expect(PointedEvent.order('created_at desc').last.repo).to eq repo
       end
     end
 

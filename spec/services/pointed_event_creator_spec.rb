@@ -8,10 +8,12 @@ RSpec.describe PointedEventCreator do
 
   describe '#call' do
     context 'when successful' do
+      let(:repo) { 'Foo' }
       let(:params) do
         {
           github_handles: [marge.github, homer.github],
-          type: 'PR_APPROVAL'
+          type: 'PR_APPROVAL',
+          repo: repo
         }
       end
 
@@ -22,6 +24,11 @@ RSpec.describe PointedEventCreator do
           }.to change { marge.pointed_events.count }.by 1
         end
 
+        it 'sets repo' do
+          service.call(params)
+
+          expect(PointedEvent.order('created_at desc').last.repo).to eq repo
+        end
       end
 
       context 'with a PR_COAUTHORS' do
