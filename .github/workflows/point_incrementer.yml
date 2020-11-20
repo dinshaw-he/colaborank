@@ -27,7 +27,7 @@ jobs:
             return coAuthorEmails ? uniqueCoAuthorEmails.map(formatEmailParams).join('&') : ''
       - name: Award Points to Pairing Participants
         if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true && steps.parse-co-authors.outputs.result != ''
-        run: curl -d 'pointed_event[repo]=${{github.event.base.pull_request.repo.name}}&pointed_event[repo_owner]=${{github.repository_owner}}&pointed_event[base_branch]=${{github.base_ref}}&pointed_event[merge_branch]=${{github.head_ref}}&pointed_event[type]=PR_COAUTHORS&${{steps.parse-co-authors.outputs.result}}' https://collaborank.herokuapp.com/api/v1/pointed_events.json
+        run: curl -d 'pointed_event[repo]=${{github.event.pull_request.base.repo.name}}&pointed_event[repo_owner]=${{github.repository_owner}}&pointed_event[base_branch]=${{github.base_ref}}&pointed_event[merge_branch]=${{github.head_ref}}&pointed_event[type]=PR_COAUTHORS&${{steps.parse-co-authors.outputs.result}}' https://collaborank.herokuapp.com/api/v1/pointed_events.json
   approval_point_calculator:
     runs-on: ubuntu-latest
     steps:
