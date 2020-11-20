@@ -38,10 +38,8 @@ module Api
 
       def pointed_event_params
         params.require(:pointed_event).permit(
-          :user,
-          :value,
           :type,
-          :description,
+          github_handles: [],
           emails: [],
         )
       end

@@ -14,7 +14,9 @@ namespace :demo_data do
 
         random_users.each do |user|
           (1..3).to_a.sample.times do
-            creator.call(type: 'PR_APPROVAL', user: user.github)
+            creator.call(type: 'PR_APPROVAL', github_handles: [
+              user.github, users.sample.github
+            ])
           end
           (1..3).to_a.sample.times do
             creator.call(type: 'PR_COAUTHORS', emails: [user.email, users.sample.email])
