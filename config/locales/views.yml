@@ -1,0 +1,9 @@
+en:
+  views:
+    home_page:
+      chart_explanation: Chart points are a rolling, five-day sum.
+  site:
+    index:
+      total_events: 'Total Events: %{count}'
+      weekly_events: 'Total Events this week: %{count}'
+      total_events_by_type: 'Total %{type} Events this week: %{count}'

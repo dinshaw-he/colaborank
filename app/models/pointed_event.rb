@@ -13,4 +13,5 @@ class PointedEvent < ApplicationRecord
 
   scope :since, lambda { |start_time|  where(created_at: start_time..Time.zone.now) }
   scope :this_week, -> { since Date.today.beginning_of_week }
+  scope :by_type, lambda { |type| where(type: type) }
 end

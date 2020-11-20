@@ -1,8 +1,10 @@
-%div#react-target
+.chart
+  %div#react-target
+  %p.text-muted.text-center
+    %em= t 'views.home_page.chart_explanation'
 
 .weekly-contest
-  %h2
-    Weekly Contest
+  %h2 Weekly Contest
   %p.dates
     - start = Date.today.beginning_of_week
     = l start, format: :contest_dates
@@ -30,3 +32,23 @@
                   %strong
                     = number_with_delimiter(v)
 
+.row.totals
+  .col-sm-6
+    %h2 Totals
+
+    %ul.list-group
+      %li.list-group-item.total
+        Total Events:
+        %a{ href: pointed_events_path }
+          = number_with_delimiter PointedEvent.count
+      %li.list-group-item.weekly-total
+        Total Events This Week:
+        %a{ href: pointed_events_path }
+          = number_with_delimiter(PointedEvent.this_week.count)
+      - PointedEvent.pluck(:type).uniq.each do |event_type|
+        %li.list-group-item.type-total
+          Total
+          %strong= event_type
+          Events:
+          %a{ href: pointed_events_path }
+            = number_with_delimiter(PointedEvent.by_type(event_type).count)

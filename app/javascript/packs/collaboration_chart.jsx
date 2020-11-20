@@ -47,6 +47,9 @@ const Chart = () => {
   }, []);
 
   const options = {
+    credits: {
+      enabled: false
+    },
     title: null,
     chart: {
       zoomType: 'xy',
