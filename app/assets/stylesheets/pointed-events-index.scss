@@ -2,10 +2,11 @@
   #start-date, #end-date {
     width: 7rem;
   }
-  .summary {
-    margin: $margin 0;
-    .total {
-      float: left;
-    }
+  form {
+    margin-bottom: $margin;
+  }
+
+  .summar {
+    margin-bottom: 0;
   }
 }

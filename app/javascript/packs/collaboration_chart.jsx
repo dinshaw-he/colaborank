@@ -76,8 +76,12 @@ const Chart = () => {
           point: {
               events: {
                   click: function (evt) {
+                      const unformattedEndDate = new Date(evt.point.x);
+                      const endDate =  format(unformattedEndDate, 'yyyy-MM-dd');
+                      const unformattedStartDate = sub(unformattedEndDate, { days: 5 });
+                      const startDate = format(unformattedStartDate, 'yyyy-MM-dd');
                       const name = evt.point.series.getName();
-                      const url = `/pointed_events?&q[user_email_eq]=${name}`;
+                      const url = `/pointed_events?&q[user_email_eq]=${name}&q[created_at_lteq]=${endDate}&q[created_at_gteq]=${startDate}`;
                       location.href = url;
                   }
               }
