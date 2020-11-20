@@ -1,0 +1,19 @@
+= search_form_for @q do |f|
+  .d-flex.justify-content-between
+    .item
+      = f.input :user_id_eq, collection: User.all, include_blank: 'All', label: 'User', required: false, label_method: :email
+    .item
+      = f.input :type_eq, collection: PointedEvent.pluck(:type).uniq, include_blank: 'All', label: 'Event Type', required: false
+    .item
+      = f.input :repo_eq, collection: PointedEvent.pluck(:repo).uniq, include_blank: 'All', label: 'Repo', required: false
+    .item
+      %label Date range
+      .input-group
+        = f.text_field :created_at_gteq, id: 'start-date', class: 'form-control', placeholder: 'Start date...', data:  { default: l(PointedEvent.minimum(:created_at).to_date, format: :daterange_picker) }
+        = f.text_field :created_at_lteq, id: 'end-date', class: 'form-control', placeholder: 'End date...', data: { default: l(Date.today, format: :daterange_picker) }
+  .submit.text-center
+    .input-group
+      .input-group-prepend
+        = f.button :submit, class: 'btn btn-primary'
+      .input-group-append
+        = link_to 'Clear', pointed_events_path, class: 'btn btn-secondary'
