@@ -13,18 +13,20 @@ class PointedEventsCollection
 
   def params_with_defaults
     unless params.has_key?('created_at_gteq')
-      params['created_at_gteq'] = I18n.l(
-        PointedEvent.minimum(:created_at).to_date,
-        format: :daterange_picker
-      )
+      params['created_at_gteq'] = PointedEvent.minimum(:created_at)
     end
 
     unless params.has_key?('created_at_lteq')
-      params['created_at_lteq'] = I18n.l(
-        Date.today,
-        format: :daterange_picker
-      )
+      params['created_at_lteq'] = Date.today
     end
+
+    params['created_at_gteq'] = Time.parse(
+      params['created_at_gteq'].to_s
+    ).beginning_of_day
+
+    params['created_at_lteq'] = Time.parse(
+      params['created_at_lteq'].to_s
+    ).end_of_day
 
     params
   end
