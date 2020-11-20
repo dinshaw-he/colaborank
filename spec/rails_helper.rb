@@ -20,7 +20,16 @@ require 'rspec/rails'
 # directory. Alternatively, in the individual `*_spec.rb` files, manually
 # require only the support files necessary.
 #
-Dir[Rails.root.join('spec', 'support', '**', '*.rb')].sort.each { |f| require f }
+ActiveRecord::Migration.maintain_test_schema!
+
+require 'support/devise'
+require 'support/fixtures'
+require 'support/helper_methods'
+require 'support/js_drivers'
+require 'support/password_helper'
+require 'support/shoulda_matchers'
+require 'support/uuid_helper'
+Dir[Rails.root.join('spec', 'support', 'shared_context', '**', '*.rb')].each { |f| require f }
 
 # Checks for pending migrations and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove these lines.

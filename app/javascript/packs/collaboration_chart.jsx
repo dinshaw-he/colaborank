@@ -112,5 +112,7 @@ const Chart = () => {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  render(<Chart />, document.querySelector('#react-target'))
+  if (document.querySelector('#react-target')) {
+    render(<Chart />, document.querySelector('#react-target'))
+  }
 })

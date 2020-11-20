@@ -2,3 +2,4 @@ en:
   date:
     formats:
       contest_dates: "%m/%d"
+      daterange_picker: "%Y-%m-%d"
