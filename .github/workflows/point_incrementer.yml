@@ -1,4 +1,4 @@
-name: Point Incrementer
+name: Collaborank Point Incrementer
 
 on:
   pull_request:
