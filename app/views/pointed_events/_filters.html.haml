@@ -19,7 +19,7 @@
             = pluralize number_with_delimiter(@pointed_events.total_count), 'Pointed Events'
             \|
             = succeed 'pt' do
-              = number_with_delimiter @pointed_events.sum(&:value)
+              = number_with_delimiter @total_points
             value
     .item
       .input-group
