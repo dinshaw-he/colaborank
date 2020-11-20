@@ -43,12 +43,13 @@
           = number_with_delimiter PointedEvent.count
       %li.list-group-item.weekly-total
         Total Events This Week:
-        %a{ href: pointed_events_path }
-          = number_with_delimiter(PointedEvent.this_week.count)
+        - beginning_of_week = Date.today.beginning_of_week.to_time
+        %a{ href: pointed_events_path(q: { created_at_gteq: beginning_of_week } ) }
+          = number_with_delimiter(PointedEvent.since(beginning_of_week).count)
       - PointedEvent.pluck(:type).uniq.each do |event_type|
         %li.list-group-item.type-total
           Total
           %strong= event_type
           Events:
-          %a{ href: pointed_events_path }
+          %a{ href: pointed_events_path(q: { type_eq: event_type } ) }
             = number_with_delimiter(PointedEvent.by_type(event_type).count)
