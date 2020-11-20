@@ -2,7 +2,7 @@ name: Point Incrementer
 
 on:
   pull_request:
-    types: [closed, assigned, unassigned]
+    types: [closed]
 
 jobs:
   pairing_point_calculator:
