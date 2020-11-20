@@ -1,9 +1,6 @@
 .pointed-events-index
   = render 'filters'
-  .summary
-    = paginate @pointed_events
-    .total
-      = pluralize number_with_delimiter(@pointed_events.total_count), 'Pointed Events'
+  = paginate @pointed_events
 
   %table.table.table-striped.table-hover
     %thead

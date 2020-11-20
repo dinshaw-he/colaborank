@@ -28,6 +28,10 @@ class PointedEventsCollection
       params['created_at_lteq'].to_s
     ).end_of_day
 
+    if params[:user_email_eq].present?
+      params[:user_id_eq] = User.find_by(email: params[:user_email_eq] ).id
+      params[:user_email_eq] = nil
+    end
     params
   end
 end
