@@ -22,8 +22,10 @@ jobs:
             const removeBadEmails = (emails) => { return emails.reduce((acc, val) => val ? (acc || []).concat([val]) : acc) }
             const formatEmailParams = (email) => { return ("pointed_event[emails][]=" + email) }
             const coAuthorEmails = removeBadEmails(getEmails(commitsResponse.data.map(getCommitEmails)))
+            const uniqueCoAuthorEmails = coAuthorEmails.filter((value, index) => coAuthorEmails.indexOf(value) === index)
 
-            return coAuthorEmails ? coAuthorEmails.map(formatEmailParams).join('&') : ''
+
+            return uniqueCoAuthorEmails ? uniqueCoAuthorEmails.map(formatEmailParams).join('&') : ''
       - name: Award Points to Pairing Participants
         if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true && steps.parse-co-authors.outputs.result != ''
         run: curl -d 'pointed_event[type]=PR_COAUTHORS&${{steps.parse-co-authors.outputs.result}}' https://collaborank.herokuapp.com/api/v1/pointed_events.json
@@ -41,9 +43,10 @@ jobs:
             const approvedReviews = reviewsResponse.data.filter(function(review) { return review.state == 'APPROVED' })
             const ascendingReviews = approvedReviews.sort((a, b) => Date.parse(a.submitted_at) - Date.parse(b.submitted_at))
             const ascendingReviewers = ascendingReviews.map(function(reviewResponse) { return reviewResponse.user.login })
+            const uniqueAscendingReviewers = ascendingReviewers.filter((value, index) => ascendingReviewers.indexOf(value) === index)
             const formatHandleParams = (handle) => { return ("pointed_event[github_handles][]=" + handle) }
 
-            return ascendingReviewers.length < 1 ? '' : ascendingReviewers.map(formatHandleParams).join('&')
+            return uniqueAscendingReviewers.length < 1 ? '' : uniqueAscendingReviewers.map(formatHandleParams).join('&')
       - name: Award Points to Pull Request Approvers
         if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true && steps.parse-approvers.outputs.result != ''
         run: curl -d 'pointed_event[type]=PR_APPROVAL&${{steps.parse-approvers.outputs.result}}' https://collaborank.herokuapp.com/api/v1/pointed_events.json
