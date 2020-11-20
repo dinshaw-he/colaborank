@@ -1,5 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react'
 import { render } from 'react-dom'
+import { format, sub } from 'date-fns';
 import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 
@@ -55,6 +56,32 @@ const Chart = () => {
       }
     },
     series,
+    tooltip: {
+      formatter: function () {
+          const points = this.y;
+          const endDate = format(this.x, 'E, LLL do');
+          const startDate = format(sub(this.x, { days: 5 }), 'E, LLL do');
+          return `
+            ${this.series.getName()} <br />
+            ${points} pts ${startDate} - ${endDate}
+          `;
+      }
+    },
+    plotOptions: {
+      series: {
+          cursor: 'pointer',
+          point: {
+              events: {
+                  click: function (evt) {
+                      console.log('event', evt);
+                      const name = evt.point.series.getName();
+                      const url = `/pointed_events?&q[user_email_eq]=${name}`;
+                      location.href = url;
+                  }
+              }
+          }
+      }
+  },
     xAxis: {
       type: 'datetime',
       labels: {
