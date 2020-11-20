@@ -19,7 +19,7 @@ jobs:
             const parseEmail = (message) => { if (message.includes('>')) { return message.substring(0, (message.indexOf('>'))) } else { return null } }
             const getCommitEmails = (commitData) => { return commitData.commit.message.split('<').map(parseEmail) }
             const getEmails = (messages) => { return messages.reduce((acc, val) => acc.concat(val), []) }
-            const removeBadEmails = (emails) => { return emails.reduce((acc, val) => val ? (acc || []).concat([val]) : acc) }
+            const removeBadEmails = (emails) => { return emails.reduce((acc, val) => val ? (acc || []).concat([val]) : (acc || []) }
             const formatEmailParams = (email) => { return ("pointed_event[emails][]=" + email) }
             const coAuthorEmails = removeBadEmails(getEmails(commitsResponse.data.map(getCommitEmails)))
             const uniqueCoAuthorEmails = coAuthorEmails.filter((value, index) => coAuthorEmails.indexOf(value) === index)
